@@ -102,13 +102,14 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+    "*": {
+       "validate": "flowwolf_process_flow.utils.update_doc_processes"
+    },
+	"Version": {
+		"after_insert": "flowwolf_process_flow.utils.run_process_flow",
+	},
+}
 
 # Scheduled Tasks
 # ---------------
