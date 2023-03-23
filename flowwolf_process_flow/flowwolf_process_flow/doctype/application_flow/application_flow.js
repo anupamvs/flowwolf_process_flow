@@ -1,7 +1,7 @@
 // Copyright (c) 2023, Flowwolf Inc. and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Process Flow Group', {
+frappe.ui.form.on('Application Flow', {
 	onload: function(frm) {
 		frm.set_query("reference_doctype", function() {
 			return {

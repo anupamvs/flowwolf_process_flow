@@ -1,0 +1,62 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2023-03-23 17:14:20.672811",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "field",
+  "state",
+  "to_state",
+  "condition",
+  "process_flow"
+ ],
+ "fields": [
+  {
+   "fieldname": "field",
+   "fieldtype": "Data",
+   "label": "Field"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Trigger - Field Value",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_state",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Post Process - Field Value"
+  },
+  {
+   "fieldname": "condition",
+   "fieldtype": "Code",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "process_flow",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Process Flow",
+   "options": "Process Flow",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-03-23 17:14:20.672811",
+ "modified_by": "Administrator",
+ "module": "Flowwolf Process Flow",
+ "name": "Process Flow Configuration Detail",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestProcessFlowGroup(FrappeTestCase):
+class TestApplicationFlow(FrappeTestCase):
 	pass

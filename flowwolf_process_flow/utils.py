@@ -23,7 +23,7 @@ EVENT_MAP = {
 }
 
 def update_doc_processes(doc, method):
-	process_flow_groups_doctypes = frappe.get_all("Process Flow Group", pluck="reference_doctype")
+	process_flow_groups_doctypes = frappe.get_all("Application Flow", pluck="reference_doctype")
 	if doc.doctype in process_flow_groups_doctypes and not doc._doc_processes:
 		process_list = get_process_flow_group_process_list(doc)
 		for row in process_list:
@@ -31,10 +31,10 @@ def update_doc_processes(doc, method):
 				doc.append("_doc_processes", row)
 
 def get_process_flow_group_process_list(doc):
-	process_flow_groups = frappe.get_all("Process Flow Group", {"reference_doctype": doc.doctype}, pluck="name")
+	process_flow_groups = frappe.get_all("Application Flow", {"reference_doctype": doc.doctype}, pluck="name")
 	process_list = []
 	for process_flow_group in process_flow_groups:
-		process_flow_group = frappe.get_doc("Process Flow Group", process_flow_group)
+		process_flow_group = frappe.get_doc("Application Flow", process_flow_group)
 		for process in process_flow_group.process_flow_configuration:
 			process_list.append({"field": process_flow_group.field, "state": process.state, "to_state": process.to_state, "process_flow": process.process_flow})
 	
@@ -77,8 +77,8 @@ def has_doc_process(doc, state):
 # 			enqueue_process_flow(doc.doctype, doc.name)
 
 def run_process_flow(doc, method):
-	process_flow_groups_doctypes = frappe.get_all("Process Flow Group", pluck="reference_doctype")
-	process_flow_groups_field = frappe.get_all("Process Flow Group", pluck="field")
+	process_flow_groups_doctypes = frappe.get_all("Application Flow", pluck="reference_doctype")
+	process_flow_groups_field = frappe.get_all("Application Flow", pluck="field")
 
 	process_flow_settings = frappe.get_doc("Process Flow Settings")
 
@@ -106,7 +106,7 @@ def run_process_flow_(doctype, name, field):
 			process_flow = frappe.get_doc("Process Flow", row.process_flow)
 			process_flow.run_processes(doc, None, None, f"Status - {doc.get(field)}")
 			doc = frappe.get_doc(doctype, name)
-			if row.to_state and doc.get_status() != "Failed":
+			if row.to_state and doc._processing_status != "Failed":
 				doc.set(field, row.to_state)
 				doc.save()
 

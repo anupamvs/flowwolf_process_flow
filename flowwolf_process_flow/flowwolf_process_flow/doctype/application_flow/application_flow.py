@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 from frappe import _
 
-class ProcessFlowGroup(Document):
+class ApplicationFlow(Document):
 	def validate(self):
 		self.insert_custom_field()
 
@@ -15,9 +15,7 @@ class ProcessFlowGroup(Document):
 
 	def insert_custom_field(self):
 		meta = frappe.get_meta(self.reference_doctype)
-		print("````````````````````````````````````````````````````````````````")
-		print(meta.__dict__)
-		print("````````````````````````````````````````````````````````````````")
+
 		field_list = [
 			{
 				"doctype": "Custom Field",
@@ -32,18 +30,28 @@ class ProcessFlowGroup(Document):
 				"dt": self.reference_doctype,
 				"label": "Processing Status",
 				"fieldtype": "Select",
-				"options": "\nPending\nIn Progress\nSucess\nFailed",
+				"options": "\nPending\nIn Progress\nSuccess\nFailed",
 				"fieldname": "_processing_status",
 				"insert_after": "_tab_process_flow",
 			},
 			{
 				"doctype": "Custom Field",
 				"dt": self.reference_doctype,
-				"label": "Process Flow List",
-				"fieldtype": "Table",
-				"options": "Doc Process Flow Detail",
-				"fieldname": "_doc_processes",
+				"label": "Failed Reason",
+				"fieldtype": "Small Text",
+				"read_only": 1,
+				"fieldname": "_failed_reason",
+				"depends_on": "eval: doc._processing_status=='Failed'",
 				"insert_after": "_processing_status",
+			},
+			{
+				"doctype": "Custom Field",
+				"dt": self.reference_doctype,
+				"label": "Process Flow Configuration",
+				"fieldtype": "Table",
+				"options": "Process Flow Configuration Detail",
+				"fieldname": "_doc_processes",
+				"insert_after": "_failed_reason",
 			},
 			{
 				"doctype": "Custom Field",
