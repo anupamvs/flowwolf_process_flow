@@ -44,19 +44,19 @@
    "options": "Process Flow Configuration"
   },
   {
-   "default": "_processing_status",
+   "default": "processing_status_",
    "fieldname": "field",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Field",
-   "options": "_processing_status",
+   "options": "processing_status_",
    "set_only_once": 1
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-24 10:06:53.772253",
+ "modified": "2023-03-24 19:24:22.856317",
  "modified_by": "Administrator",
  "module": "Flowwolf Process Flow",
  "name": "Application Flow",
