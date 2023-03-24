@@ -8,6 +8,7 @@ from frappe import _
 class ApplicationFlow(Document):
 	def validate(self):
 		self.insert_custom_field()
+		self.create_client_script()
 
 	def validate_track_changes(self):
 		if not frappe.get_meta(self.reference_doctype).track_changes:
@@ -65,3 +66,15 @@ class ApplicationFlow(Document):
 		for row in field_list:
 			if not meta.has_field(row.get("fieldname")):
 				frappe.get_doc(row).insert()
+
+	def create_client_script(self):
+		client_script = frappe.db.exists("Client Script", f"Process Flow Log {self.reference_doctype}")
+		if not client_script:
+			client_script = frappe.get_doc({
+				"doctype": "Client Script",
+				"dt": self.reference_doctype,
+				"view": "Form",
+				"enabled": 1,
+				"name": f"Process Flow Log {self.reference_doctype}",
+				"script": """frappe.ui.form.on('"""+ self.reference_doctype +"""', {\n\trefresh(frm) {\n\t\tif(!frm.is_new()) {\n\t\t\tfrm.trigger("setup_process_flow_log");\n\t\t}\n\t},\n\tsetup_process_flow_log(frm) {\n\t\tfrappe.call({\n\t\t\tmethod: "flowwolf_process_flow.utils.get_process_flow_log_html_table",\n\t\t\targs: {\n\t\t\t\tdt: frm.doc.doctype,\n\t\t\t\tdn: frm.doc.name,\n\t\t\t},\n\t\t\tcallback: function(r) {\n\t\t\t\tif(r.message) {\n\t\t\t\t\t$(frm.fields_dict['_process_log'].wrapper).html(r.message);\n\t\t\t\t}\n\t\t\t}\n\t\t});\n\t},\n})"""
+			}).insert()
