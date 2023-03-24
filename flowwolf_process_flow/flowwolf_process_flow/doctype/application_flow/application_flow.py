@@ -32,7 +32,7 @@ class ApplicationFlow(Document):
 				"label": "Processing Status",
 				"fieldtype": "Select",
 				"options": "\nPending\nIn Progress\nSuccess\nFailed",
-				"fieldname": "_processing_status",
+				"fieldname": "processing_status_",
 				"insert_after": "_tab_process_flow",
 			},
 			{
@@ -42,8 +42,8 @@ class ApplicationFlow(Document):
 				"fieldtype": "Small Text",
 				"read_only": 1,
 				"fieldname": "_failed_reason",
-				"depends_on": "eval: doc._processing_status=='Failed'",
-				"insert_after": "_processing_status",
+				"depends_on": "eval: doc.processing_status_=='Failed'",
+				"insert_after": "processing_status_",
 			},
 			{
 				"doctype": "Custom Field",

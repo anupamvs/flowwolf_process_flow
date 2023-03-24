@@ -105,7 +105,7 @@ def run_process_flow_(doctype, name, field):
 			process_flow = frappe.get_doc("Process Flow", row.process_flow)
 			process_flow.run_processes(doc, None, None, f"Status - {doc.get(field)}")
 			doc = frappe.get_doc(doctype, name)
-			if row.to_state and doc._processing_status != "Failed":
+			if row.to_state and doc.processing_status_ != "Failed":
 				doc.set(field, row.to_state)
 				doc.save()
 
