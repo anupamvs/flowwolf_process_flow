@@ -78,7 +78,7 @@ def has_doc_process(doc, state):
 
 def run_process_flow(doc, method):
 	process_flow_groups_doctypes = frappe.get_all("Application Flow", pluck="reference_doctype")
-	process_flow_groups_field = frappe.get_all("Application Flow", pluck="field")
+	process_flow_groups_field = frappe.get_all("Application Flow", filters={"reference_doctype": doc.ref_doctype}, pluck="field")
 
 	process_flow_settings = frappe.get_doc("Process Flow Settings")
 
@@ -90,7 +90,6 @@ def run_process_flow(doc, method):
 					if (len(row) == 3 and 
 						row[0] == field and 
 						row[2] and row[1]!=row[2]):
-						print("Check-----------------------------------------------------------------------------------------------")
 						enqueue_process_flow(doc.ref_doctype, doc.docname, field)
 
 def enqueue_process_flow(dt, dn, field):
