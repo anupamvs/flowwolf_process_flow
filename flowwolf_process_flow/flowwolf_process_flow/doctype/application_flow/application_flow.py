@@ -41,7 +41,7 @@ class ApplicationFlow(Document):
 				"label": "Failed Reason",
 				"fieldtype": "Small Text",
 				"read_only": 1,
-				"fieldname": "_failed_reason",
+				"fieldname": "failed_reason_",
 				"depends_on": "eval: doc.processing_status_=='Failed'",
 				"insert_after": "processing_status_",
 			},
@@ -52,7 +52,7 @@ class ApplicationFlow(Document):
 				"fieldtype": "Table",
 				"options": "Process Flow Configuration Detail",
 				"fieldname": "_doc_processes",
-				"insert_after": "_failed_reason",
+				"insert_after": "failed_reason_",
 			},
 			{
 				"doctype": "Custom Field",
