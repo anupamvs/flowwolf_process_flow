@@ -32,6 +32,8 @@ class ApplicationFlow(Document):
 				"dt": self.reference_doctype,
 				"label": "Processing Status",
 				"fieldtype": "Select",
+				"in_list_view": 1,
+				"in_standard_filter": 1,
 				"options": "\nPending\nIn Progress\nSuccess\nFailed",
 				"fieldname": "processing_status_",
 				"insert_after": "_tab_process_flow",
@@ -58,9 +60,17 @@ class ApplicationFlow(Document):
 			{
 				"doctype": "Custom Field",
 				"dt": self.reference_doctype,
+				"label": "Process Flow Log",
+				"fieldtype": "Section Break",
+				"fieldname": "_section_process_flow_log",
+				"insert_after": "_doc_processes",
+			},
+			{
+				"doctype": "Custom Field",
+				"dt": self.reference_doctype,
 				"fieldtype": "HTML",
 				"fieldname": "_process_log",
-				"insert_after": "_doc_processes",
+				"insert_after": "_section_process_flow_log",
 			},
 		]
 
